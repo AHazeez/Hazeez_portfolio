@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import CustomCursor from './components/CustomCursor';
 import ParticleBg from './components/ParticleBg';
 import Navbar from './sections/Navbar';
@@ -14,13 +13,8 @@ import Contact from './sections/Contact';
 import Footer from './sections/Footer';
 
 export default function App() {
-  const location = useLocation();
+  const [activeSection, setActiveSection] = useState('home');
   const [scrollProgress, setScrollProgress] = useState(0);
-
-  const activeSection = useMemo(() => {
-    const route = location.pathname.replace(/^\/+/, '');
-    return route || 'home';
-  }, [location.pathname]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,13 +22,28 @@ export default function App() {
       if (totalHeight > 0) {
         setScrollProgress(window.scrollY / totalHeight);
       }
+
+      const sections = ['home', 'about', 'skills', 'projects', 'experience', 'achievements', 'education', 'contact'];
+      const scrollPosition = window.scrollY + 160;
+
+      for (const sectionId of sections) {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          const top = el.offsetTop;
+          const height = el.offsetHeight;
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(sectionId);
+            break;
+          }
+        }
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
     handleScroll();
 
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [location.pathname]);
+  }, []);
 
   return (
     <div className="relative min-h-screen text-cyber-text bg-cyber-bg overflow-x-hidden">
@@ -43,17 +52,14 @@ export default function App() {
       <Navbar activeSection={activeSection} scrollProgress={scrollProgress} />
 
       <main className="relative z-10 w-full">
-        <Routes>
-          <Route index element={<Hero />} />
-          <Route path="about" element={<About />} />
-          <Route path="skills" element={<Skills />} />
-          <Route path="projects" element={<Projects />} />
-          <Route path="experience" element={<Experience />} />
-          <Route path="achievements" element={<Achievements />} />
-          <Route path="education" element={<Education />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <Hero />
+        <About />
+        <Skills />
+        <Projects />
+        <Experience />
+        <Achievements />
+        <Education />
+        <Contact />
       </main>
 
       <Footer />

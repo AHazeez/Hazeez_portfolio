@@ -1,22 +1,20 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { NavLink, useNavigate } from 'react-router-dom';
 import { Menu, X, Sun, Moon, Cpu } from 'lucide-react';
 
 export default function Navbar({ activeSection, scrollProgress }) {
-  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [theme, setTheme] = useState('dark');
 
   const navItems = [
-    { label: 'Home', to: '/' },
-    { label: 'About', to: '/about' },
-    { label: 'Skills', to: '/skills' },
-    { label: 'Projects', to: '/projects' },
-    { label: 'Experience', to: '/experience' },
-    { label: 'Achievements', to: '/achievements' },
-    { label: 'Contact', to: '/contact' },
+    { label: 'Home', id: 'home' },
+    { label: 'About', id: 'about' },
+    { label: 'Skills', id: 'skills' },
+    { label: 'Projects', id: 'projects' },
+    { label: 'Experience', id: 'experience' },
+    { label: 'Achievements', id: 'achievements' },
+    { label: 'Contact', id: 'contact' },
   ];
 
   useEffect(() => {
@@ -48,6 +46,17 @@ export default function Navbar({ activeSection, scrollProgress }) {
     }
   };
 
+  const scrollToId = (id) => {
+    setIsOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    }
+  };
+
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
@@ -63,10 +72,7 @@ export default function Navbar({ activeSection, scrollProgress }) {
 
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <button 
-          onClick={() => {
-            setIsOpen(false);
-            navigate('/');
-          }}
+          onClick={() => scrollToId('home')}
           className="flex items-center gap-2 font-black text-xl tracking-wider select-none focus:outline-none"
         >
           <Cpu className="w-6 h-6 text-cyber-primary animate-pulse" />
@@ -77,23 +83,22 @@ export default function Navbar({ activeSection, scrollProgress }) {
 
         <nav className="hidden md:flex items-center gap-8 font-mono text-[13px]">
           {navItems.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              className={({ isActive }) => `relative px-1 py-2 font-medium tracking-wide uppercase transition-colors hover:text-cyber-primary select-none ${
-                isActive ? 'text-cyber-primary font-bold' : 'text-cyber-textMuted'
+            <button
+              key={item.id}
+              onClick={() => scrollToId(item.id)}
+              className={`relative px-1 py-2 font-medium tracking-wide uppercase transition-colors hover:text-cyber-primary select-none ${
+                activeSection === item.id ? 'text-cyber-primary font-bold' : 'text-cyber-textMuted'
               }`}
-              onClick={() => setIsOpen(false)}
             >
               {item.label}
-              {(activeSection === item.to.replace(/^\//, '') || (item.to === '/' && activeSection === 'home')) && (
+              {activeSection === item.id && (
                 <motion.span 
                   layoutId="activeTabMarker"
                   className="absolute bottom-[-2px] left-0 w-full h-[2px] bg-cyber-primary shadow-[0_0_8px_#00f0ff] rounded"
                   transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                 />
               )}
-            </NavLink>
+            </button>
           ))}
 
           <button
@@ -134,16 +139,15 @@ export default function Navbar({ activeSection, scrollProgress }) {
           >
             <div className="px-6 py-6 flex flex-col gap-4 font-mono text-[14px] font-bold">
               {navItems.map((item) => (
-                <NavLink
-                  key={item.to}
-                  to={item.to}
-                  className={({ isActive }) => `w-full text-left py-2 border-b border-white/5 uppercase transition-colors ${
-                    isActive ? 'text-cyber-primary font-bold' : 'text-cyber-textMuted'
+                <button
+                  key={item.id}
+                  onClick={() => scrollToId(item.id)}
+                  className={`w-full text-left py-2 border-b border-white/5 uppercase transition-colors ${
+                    activeSection === item.id ? 'text-cyber-primary font-bold' : 'text-cyber-textMuted'
                   }`}
-                  onClick={() => setIsOpen(false)}
                 >
                   &gt; {item.label}
-                </NavLink>
+                </button>
               ))}
             </div>
           </motion.div>

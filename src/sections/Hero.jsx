@@ -1,13 +1,21 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Download, FileCode2, Send, MapPin } from 'lucide-react';
 import SceneWorkspace from '../components/SceneWorkspace';
 
 export default function Hero() {
   const [typedText, setTypedText] = useState('');
-  const navigate = useNavigate();
   const fullText = "Transforming ideas into scalable web applications through Java, React, and modern technologies.";
+
+  const handleScrollTo = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     let index = 0;
@@ -93,7 +101,7 @@ export default function Hero() {
           >
             {/* View Projects CTA */}
             <button
-              onClick={() => navigate('/projects')}
+              onClick={() => handleScrollTo('projects')}
               className="group relative flex items-center gap-2 border border-cyber-primary/40 px-6 py-3 rounded-lg text-[13px] font-bold font-mono uppercase text-cyber-primary hover:text-cyber-bg bg-cyber-primary/5 hover:bg-cyber-primary shadow-cyan-glow transition-all duration-300"
             >
               <FileCode2 className="w-4 h-4 group-hover:rotate-12 transition-transform" />
@@ -102,7 +110,7 @@ export default function Hero() {
 
             {/* Contact Me CTA */}
             <button
-              onClick={() => navigate('/contact')}
+              onClick={() => handleScrollTo('contact')}
               className="group relative flex items-center gap-2 border border-cyber-secondary/40 px-6 py-3 rounded-lg text-[13px] font-bold font-mono uppercase text-cyber-secondary hover:text-cyber-bg bg-cyber-secondary/5 hover:bg-cyber-secondary shadow-purple-glow transition-all duration-300"
             >
               <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
