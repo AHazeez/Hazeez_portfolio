@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    cursor: none; /* Hide default cursor to enable the custom holographic cursor */
+  }
+
+  body {
+    @apply bg-cyber-bg text-cyber-text font-sans overflow-x-hidden antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  a, button {
+    cursor: none;
+  }
+
+  /* Custom Neon Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #030014;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #00f0ff, #9d4edd);
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #ec4899, #00f0ff);
+  }
+}
+
+/* Glassmorphism Styles */
+.glass-card {
+  background: rgba(10, 5, 30, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 240, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 240, 255, 0.02);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.glass-card:hover {
+  border-color: rgba(0, 240, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(0, 240, 255, 0.15);
+  transform: translateY(-4px);
+}
+
+/* Light Mode Glassmorphism Override */
+.light .glass-card {
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(157, 78, 221, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(157, 78, 221, 0.05);
+}
+
+.light .glass-card:hover {
+  border-color: rgba(157, 78, 221, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(157, 78, 221, 0.15);
+}
+
+/* Holographic Cyber Grid Background */
+.cyber-grid-bg {
+  background-image: 
+    linear-gradient(rgba(0, 240, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center center;
+}
+
+.light .cyber-grid-bg {
+  background-image: 
+    linear-gradient(rgba(157, 78, 221, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(157, 78, 221, 0.03) 1px, transparent 1px);
+}
+
+/* Radial Glows */
+.radial-glow-cyan {
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.12) 0%, transparent 70%);
+}
+
+.radial-glow-purple {
+  background: radial-gradient(circle, rgba(157, 78, 221, 0.12) 0%, transparent 70%);
+}
+
+/* Dynamic text typing caret animation */
+.caret-blink::after {
+  content: '|';
+  animation: blink 1s step-end infinite;
+  color: #00f0ff;
+  font-weight: 800;
+}
+
+@keyframes blink {
+  from, to { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Custom Selection style */
+::selection {
+  background: rgba(0, 240, 255, 0.3);
+  color: #ffffff;
+}
+
+.light ::selection {
+  background: rgba(157, 78, 221, 0.25);
+  color: #000000;
+}
+
+/* Active Nav Link Marker */
+.nav-link-active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #00f0ff, #9d4edd);
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.8);
+}
