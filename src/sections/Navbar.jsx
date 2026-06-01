@@ -83,9 +83,13 @@ export default function Navbar({ activeSection, scrollProgress }) {
 
         <nav className="hidden md:flex items-center gap-8 font-mono text-[13px]">
           {navItems.map((item) => (
-            <button
+            <a
               key={item.id}
-              onClick={() => scrollToId(item.id)}
+              href={`#${item.id}`}
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToId(item.id);
+              }}
               className={`relative px-1 py-2 font-medium tracking-wide uppercase transition-colors hover:text-cyber-primary select-none ${
                 activeSection === item.id ? 'text-cyber-primary font-bold' : 'text-cyber-textMuted'
               }`}
@@ -98,7 +102,7 @@ export default function Navbar({ activeSection, scrollProgress }) {
                   transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                 />
               )}
-            </button>
+            </a>
           ))}
 
           <button
@@ -139,15 +143,19 @@ export default function Navbar({ activeSection, scrollProgress }) {
           >
             <div className="px-6 py-6 flex flex-col gap-4 font-mono text-[14px] font-bold">
               {navItems.map((item) => (
-                <button
+                <a
                   key={item.id}
-                  onClick={() => scrollToId(item.id)}
+                  href={`#${item.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    scrollToId(item.id);
+                  }}
                   className={`w-full text-left py-2 border-b border-white/5 uppercase transition-colors ${
                     activeSection === item.id ? 'text-cyber-primary font-bold' : 'text-cyber-textMuted'
                   }`}
                 >
                   &gt; {item.label}
-                </button>
+                </a>
               ))}
             </div>
           </motion.div>

@@ -24,12 +24,17 @@ function scrollToId(id) {
   }
 }
 
+function getSectionFromHash(hash) {
+  if (!hash) return null;
+  const sectionId = hash.replace('#', '');
+  return SECTION_IDS.includes(sectionId) ? sectionId : null;
+}
+
 function getSectionFromPath(pathname) {
   if (!pathname) return null;
   const parts = pathname.replace(/\/+$/, '').split('/').filter(Boolean);
   const lastSegment = parts[parts.length - 1] || '';
-  if (SECTION_IDS.includes(lastSegment)) return lastSegment;
-  return null;
+  return SECTION_IDS.includes(lastSegment) ? lastSegment : null;
 }
 
 export default function App() {
@@ -61,9 +66,15 @@ export default function App() {
     window.addEventListener('scroll', handleScroll);
     handleScroll();
 
-    const sectionFromPath = getSectionFromPath(window.location.pathname);
-    if (sectionFromPath && sectionFromPath !== 'home') {
-      setTimeout(() => scrollToId(sectionFromPath), 150);
+    const sectionFromHash = getSectionFromHash(window.location.hash);
+    if (sectionFromHash && sectionFromHash !== 'home') {
+      setTimeout(() => scrollToId(sectionFromHash), 150);
+    } else {
+      const sectionFromPath = getSectionFromPath(window.location.pathname);
+      if (sectionFromPath && sectionFromPath !== 'home') {
+        window.location.hash = `#${sectionFromPath}`;
+        setTimeout(() => scrollToId(sectionFromPath), 150);
+      }
     }
 
     return () => window.removeEventListener('scroll', handleScroll);
