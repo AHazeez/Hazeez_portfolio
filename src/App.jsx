@@ -12,6 +12,26 @@ import Education from './sections/Education';
 import Contact from './sections/Contact';
 import Footer from './sections/Footer';
 
+const SECTION_IDS = ['home', 'about', 'skills', 'projects', 'experience', 'achievements', 'education', 'contact'];
+
+function scrollToId(id) {
+  const element = document.getElementById(id);
+  if (element) {
+    const offset = 80;
+    const elementPosition = element.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - offset;
+    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+  }
+}
+
+function getSectionFromPath(pathname) {
+  if (!pathname) return null;
+  const parts = pathname.replace(/\/+$/, '').split('/').filter(Boolean);
+  const lastSegment = parts[parts.length - 1] || '';
+  if (SECTION_IDS.includes(lastSegment)) return lastSegment;
+  return null;
+}
+
 export default function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -23,10 +43,9 @@ export default function App() {
         setScrollProgress(window.scrollY / totalHeight);
       }
 
-      const sections = ['home', 'about', 'skills', 'projects', 'experience', 'achievements', 'education', 'contact'];
       const scrollPosition = window.scrollY + 160;
 
-      for (const sectionId of sections) {
+      for (const sectionId of SECTION_IDS) {
         const el = document.getElementById(sectionId);
         if (el) {
           const top = el.offsetTop;
@@ -41,6 +60,11 @@ export default function App() {
 
     window.addEventListener('scroll', handleScroll);
     handleScroll();
+
+    const sectionFromPath = getSectionFromPath(window.location.pathname);
+    if (sectionFromPath && sectionFromPath !== 'home') {
+      setTimeout(() => scrollToId(sectionFromPath), 150);
+    }
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
