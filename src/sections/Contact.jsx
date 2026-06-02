@@ -1,5 +1,5 @@
-import { useState, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Phone, MapPin, Send, ShieldCheck } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import CyberCard from '../components/CyberCard';

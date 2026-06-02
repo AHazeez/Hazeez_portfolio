@@ -5,6 +5,7 @@ export default function CustomCursor() {
   const [hovered, setHovered] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isTouchDevice] = useState(() => typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0));
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
@@ -62,12 +63,6 @@ export default function CustomCursor() {
       observer.disconnect();
     };
   }, [cursorX, cursorY, isVisible]);
-
-  // Disable on mobile/touch screens
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
-  useEffect(() => {
-    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  }, []);
 
   if (isTouchDevice || !isVisible) return null;
 

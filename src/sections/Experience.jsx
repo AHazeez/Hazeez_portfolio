@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Calendar, Briefcase, ChevronRight } from 'lucide-react';
+import { Calendar, ChevronRight } from 'lucide-react';
 import CyberCard from '../components/CyberCard';
 
 export default function Experience() {

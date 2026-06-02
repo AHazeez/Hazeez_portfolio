@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Award, Globe, Rocket, Landmark } from 'lucide-react';
+import { Award, Globe, Rocket } from 'lucide-react';
 import CyberCard from '../components/CyberCard';
 
 export default function Achievements() {

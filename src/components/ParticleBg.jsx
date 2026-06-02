@@ -114,7 +114,7 @@ export default function ParticleBg() {
 
     // Draw lines connecting particles
     const connect = () => {
-      let opacityValue = 1;
+      let opacityValue;
       const light = isLightMode();
       const lineColor = light ? '157, 78, 221' : '0, 240, 255';
       const maxDistance = 140;

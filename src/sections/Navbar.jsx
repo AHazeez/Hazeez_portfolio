@@ -5,7 +5,12 @@ import { Menu, X, Sun, Moon, Cpu } from 'lucide-react';
 export default function Navbar({ activeSection, scrollProgress }) {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') || 'dark';
+    }
+    return 'dark';
+  });
 
   const navItems = [
     { label: 'Home', id: 'home' },
@@ -22,9 +27,7 @@ export default function Navbar({ activeSection, scrollProgress }) {
       setScrolled(window.scrollY > 20);
     };
 
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    setTheme(savedTheme);
-    if (savedTheme === 'light') {
+    if (theme === 'light') {
       document.documentElement.classList.add('light');
     } else {
       document.documentElement.classList.remove('light');
@@ -32,7 +35,7 @@ export default function Navbar({ activeSection, scrollProgress }) {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [theme]);
 
   const toggleTheme = () => {
     const nextTheme = theme === 'dark' ? 'light' : 'dark';

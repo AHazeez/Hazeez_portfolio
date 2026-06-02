@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Award, GraduationCap, Briefcase, BrainCircuit } from 'lucide-react';
+import { GraduationCap, Briefcase, BrainCircuit } from 'lucide-react';
 import CyberCard from '../components/CyberCard';
 
 export default function About() {
