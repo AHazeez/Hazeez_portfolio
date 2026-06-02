@@ -37,9 +37,10 @@ function getSectionFromPath(pathname) {
   return SECTION_IDS.includes(lastSegment) ? lastSegment : null;
 }
 
-export default function App() {
+function AppContent() {
   const [activeSection, setActiveSection] = useState('home');
   const [scrollProgress, setScrollProgress] = useState(0);
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -100,4 +101,20 @@ export default function App() {
       <Footer />
     </div>
   );
+}
+
+export default function App() {
+  try {
+    return <AppContent />;
+  } catch (error) {
+    console.error('App rendering error:', error);
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-cyber-bg text-white">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Portfolio Loading...</h1>
+          <p>Please refresh the page.</p>
+        </div>
+      </div>
+    );
+  }
 }

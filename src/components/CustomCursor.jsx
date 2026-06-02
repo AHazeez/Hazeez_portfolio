@@ -15,18 +15,23 @@ export default function CustomCursor() {
   const cursorSpringY = useSpring(cursorY, springConfig);
 
   useEffect(() => {
+    if (isTouchDevice || typeof window === 'undefined') return;
+
     const moveCursor = (e) => {
       cursorX.set(e.clientX - 16);
       cursorY.set(e.clientY - 16);
       if (!isVisible) setIsVisible(true);
+      document.documentElement.style.cursor = 'none';
     };
 
     const handleMouseLeave = () => {
       setIsVisible(false);
+      document.documentElement.style.cursor = 'auto';
     };
 
     const handleMouseEnter = () => {
       setIsVisible(true);
+      document.documentElement.style.cursor = 'none';
     };
 
     window.addEventListener('mousemove', moveCursor);
@@ -61,8 +66,9 @@ export default function CustomCursor() {
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
       observer.disconnect();
+      document.documentElement.style.cursor = 'auto';
     };
-  }, [cursorX, cursorY, isVisible]);
+  }, [cursorX, cursorY, isVisible, isTouchDevice]);
 
   if (isTouchDevice || !isVisible) return null;
 

@@ -7,16 +7,17 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    cursor: none; /* Hide default cursor to enable the custom holographic cursor */
   }
 
   body {
-    @apply bg-cyber-bg text-cyber-text font-sans overflow-x-hidden antialiased;
+    @apply bg-cyber-bg text-cyber-text font-sans overflow-x-hidden antialiased min-h-screen;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 
-  a, button {
-    cursor: none;
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 
   /* Custom Neon Scrollbar */
